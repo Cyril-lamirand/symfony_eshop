@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product {{ product.ProductName }}{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { padding: 2px 6px; }
+    </style>
+
+    <div class="example-wrapper">
+        <div class="text-center">
+            <img src="../uploads/{{ product.ProductPicture }}" alt="Product Image of {{ product.ProductName }}">
+        </div>
+        <h1 class="txt-color">{{ product.ProductName }}</h1>
+        <hr>
+        <p class="txt-color">{{ product.ProductPrice }} <span class="dollar">$</span></p>
+        <p class="txt-color">Stock Quantity : {{ product.ProductQuantity }}</p>
+    </div>
+{% endblock %}

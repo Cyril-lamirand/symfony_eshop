@@ -4,8 +4,38 @@
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}{% endblock %}
+        <style>
+            body{ margin:0 auto !important; background:#222222; }
+            a{ font-family: "Calibri Light"; color:white; text-shadow:1px 1px 3px black; text-decoration:none; text-transform: uppercase; }
+            .bg-1,.bg-2,.bg-3,.bg-4{ width:25%; height:40px; padding-top: 15px; }
+            .bg-1{ background-color:#F4B255; }
+            .bg-2{ background-color:#41BF9B; }
+            .bg-3{ background-color:#3CA36F; }
+            .bg-4{ background-color:#6A6384; }
+            .row{ display:flex; flex-direction:row; width:100%; text-align:center; border-bottom: 2px solid white; box-shadow: 2px 1px 3px black;}
+            .txt-color{ color:#C4B8CA}
+            .text-center{ display:flex; text-align: center; justify-content: center; }
+            hr{ border:1px solid #C4B8CA; }
+            .row-product{ display:flex; flex-direction:row; flex-wrap:wrap; }
+            .card-product{ width: 185px; margin-left: 5px; margin-right: 5px; margin-top: 10px; margin-bottom: 10px; border:2px solid #C4B8CA;}
+            img{ max-width: 100%; height: auto;}
+        </style>
     </head>
     <body>
+        <div class="row">
+            <div class="bg-1">
+                <a href="/">Home</a>
+            </div>
+            <div class="bg-2">
+                <a href="/product">Products</a>
+            </div>
+            <div class="bg-3">
+                <a href="/cart">Shopping Cart</a>
+            </div>
+            <div class="bg-4">
+                <a href="/lucky">Random number</a>
+            </div>
+        </div>
         {% block body %}{% endblock %}
         {% block javascripts %}{% endblock %}
     </body>
