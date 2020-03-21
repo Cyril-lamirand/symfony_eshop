@@ -6,15 +6,43 @@
 <style>
     .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    table{ width: 100%;}
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/symfony_eshop/src/Controller/CartController.php'|file_link(0) }}">src/Controller/CartController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/symfony_eshop/templates/cart/index.html.twig'|file_link(0) }}">templates/cart/index.html.twig</a></code></li>
-    </ul>
+    <h1 class="txt-color">Shopping Cart</h1>
+    <hr>
+    {% if products | length > 0  %}
+        <table class="txt-color" border="1">
+            <thead>
+                <tr>
+                    <th><div class="text-center">Product(s)</div></th>
+                    <th><div class="text-center">Price</div></th>
+                    <th><div class="text-center">Quantity</div></th>
+                    <th><div class="text-center">Total</div></th>
+                    <th><div class="text-center">Action(s)</div></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in products %}
+                <tr>
+                    <td><div class="text-center">{{ item.product.ProductName }}</div></td>
+                    <td><div class="text-center">{{ item.product.ProductPrice }}</div></td>
+                    <td><div class="text-center">{{ item.quantity }}</div></td>
+                    <td><div class="text-center">{{ item.product.ProductPrice * item.quantity }}</div></td>
+                    <td>
+                        <div class="text-center">
+                            <a class="txt-color" href="/cart/remove/{{ item.product.id }}">Remove </a>&nbsp;|&nbsp;<a class="txt-color" href="cart/add/{{ item.product.id }}">+1 Quantity</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <hr>
+        <h4 class="txt-color">Total : {{ total }} $</h4>
+    {% else  %}
+        <p class="txt-color">Cart is empty !</p>
+    {% endif  %}
 </div>
 {% endblock %}

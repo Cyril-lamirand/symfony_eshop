@@ -34,7 +34,7 @@ class ProductType extends AbstractType
                     ])
                 ]
             ])
-            ->add('Sauvegarder', SubmitType::class)
+            ->add('Save', SubmitType::class)
         ;
     }
 

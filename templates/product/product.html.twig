@@ -13,8 +13,11 @@
             <img src="../uploads/{{ product.ProductPicture }}" alt="Product Image of {{ product.ProductName }}">
         </div>
         <h1 class="txt-color">{{ product.ProductName }}</h1>
-        <hr>
         <p class="txt-color">{{ product.ProductPrice }} <span class="dollar">$</span></p>
         <p class="txt-color">Stock Quantity : {{ product.ProductQuantity }}</p>
+        <hr>
+        <h2 class="txt-color">Action(s)</h2>
+        <a class="txt-color" href="/cart/add/{{ product.id }}">Add to shopping Cart</a>
+        <p class="txt-color"><i>I'm sorry, if you want more of this product, you can add it from the <b>/cart</b> page</i>.</p>
     </div>
 {% endblock %}
