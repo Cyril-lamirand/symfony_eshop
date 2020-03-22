@@ -1,2 +1,1 @@
-# symfony_eshop
-Projet Symfony A2 - IIM
+<h1>Symfony E-Shop project</h1>
