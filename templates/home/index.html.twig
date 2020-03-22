@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello HomeController!{% endblock %}
+{% block title %}Index{% endblock %}
 
 {% block body %}
     <style>
@@ -10,7 +10,7 @@
 
     <div class="example-wrapper txt-color">
         <div class="text-center">
-            <h1>Welcome on my Symfony project !</h1>
+            <h1>{{ loc_welcome }}</h1>
         </div>
         <hr>
         <p><b>Symfony</b> : 5.0.5</p>
@@ -19,7 +19,7 @@
         <p><b>Apache</b> : 2.4.41</p>
         <p><b>Composer</b> : 1.10.0</p>
         <p><b>Wampserver</b> : 3.2.0 - 64 bit</p>
-        <p><i>*It's my IDE not yours !</i></p>
+        <p><i>{{ loc_info1 }}</i></p>
         <hr>
         <h2>Routes</h2>
         <ul>
@@ -28,10 +28,8 @@
             <li><b>/product/{id}</b></li>
             <li><b>/product/create</b></li>
             <li><b>/cart</b></li>
-            <li><b>/cart/add/{id}</b></li>
-            <li><b>/cart/remove/{id}</b></li>
+            <li><b>/cart/delete/{id}</b></li>
         </ul>
-        <p><i>**Note that you can use the website without using the URL, it's only for your information.</i></p>
-
+        <p><i>{{ loc_info2 }}</i></p>
     </div>
 {% endblock %}

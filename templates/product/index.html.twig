@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello ProductController!{% endblock %}
+{% block title %}{{ loc_prod }}{% endblock %}
 
 {% block body %}
 <style>
@@ -9,7 +9,7 @@
 </style>
 
 <div class="example-wrapper">
-    <h1 class="txt-color">Products</h1>
+    <h1 class="txt-color">{{ loc_prod }}</h1>
     <hr>
     {% if products is not empty %}
         <div class="row-product">
@@ -23,15 +23,18 @@
                     <div class="text-center">
                         <p class="txt-color">{{ product.ProductPrice }} <span class="dollar">$</span> // Stock :  {{ product.ProductQuantity }}</p>
                     </div>
-                    <hr>
                     <div class="text-center">
-                        <a class="txt-color" href="/product/{{ product.id }}">More</a>
+                        <a class="txt-color" href="/product/{{ product.id }}">{{ loc_info }}</a>
                     </div>
                 </div>
             {% endfor %}
         </div>
     {% else %}
-        <p class="txt-color">Il n'y a aucun(s) produit(s) !</p>
+        <p class="txt-color">{{ loc_empt }}</p>
     {% endif %}
+    <hr>
+    <div class="text-center">
+        <a class="txt-color" href="/product/create">{{ loc_crea }}</a>
+    </div>
 </div>
 {% endblock %}

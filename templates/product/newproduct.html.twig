@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}{{ loc_newprod }}{% endblock %}
 
 {% block body %}
     <style>
@@ -9,7 +9,7 @@
     </style>
 
     <div class="example-wrapper txt-color">
-        <h1>New product</h1>
+        <h1>{{ loc_newprod }}</h1>
         <hr>
         {{ form(form_add_product) }}
     </div>

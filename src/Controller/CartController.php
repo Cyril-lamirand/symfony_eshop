@@ -2,64 +2,52 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductRepository;
+use App\Entity\Cart;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class CartController extends AbstractController
 {
     /**
      * @Route("/cart", name="cart")
      */
-    public function index(SessionInterface $session, ProductRepository $productRepository)
+    public function index(TranslatorInterface $translator)
     {
-        $cart = $session->get('cart', []);
-        $cartWithData = [];
-        foreach($cart as $id => $quantity) {
-            $cartWithData[] = [
-                'product' => $productRepository->find($id),
-                'quantity' => $quantity
-            ];
-        }
-        $total = 0;
-        foreach($cartWithData as $item) {
-            $totalItem = $item['product']->getProductPrice() * $item['quantity'];
-            $total += $totalItem;
-        }
+        $em = $this->getDoctrine()->getManager();
+        $carts = $em->getRepository(Cart::class)->findAll();
+        $size = count($carts);
+        // Translation EN -> FR
+        $local_cart_heading = $translator->trans('Shopping Cart');
+        $local_table_product = $translator->trans('Product(s)');
+        $local_table_quantity = $translator->trans('Quantity');
+        $local_table_price = $translator->trans('Price');
+        $local_cart_empty = $translator->trans('Cart is empty !');
+        $local_btn_delete = $translator->trans('Remove');
+
         return $this->render('cart/index.html.twig', [
-            'products' => $cartWithData,
-            'total' => $total,
+            'carts' => $carts,
+            'size' => $size,
+            'loc_cart_heading' => $local_cart_heading,
+            'loc_table_product' => $local_table_product,
+            'loc_table_quantity' => $local_table_quantity,
+            'loc_table_price' => $local_table_price,
+            'loc_cart_empty' => $local_cart_empty,
+            'loc_btn_delete' => $local_btn_delete,
         ]);
     }
 
     /**
-     * @Route("/cart/add/{id}", name="add_cart")
+     * @Route ("/cart/delete/{id}", name="delete_cart")
      */
-    public function add($id, SessionInterface $session)
+    public function delete(Cart $cart=null, TranslatorInterface $translator)
     {
-        $cart = $session->get('cart', []);
-        if (!empty($cart[$id])) {
-            $cart[$id]++;
-        }else{
-            $cart[$id] = 1;
+        if($cart !=null) {
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($cart);
+            $em->flush();
+            $this->addFlash("success", $translator->trans('Success'));
         }
-        $session->set('cart', $cart);
-        return $this->redirectToRoute("cart");
-    }
-
-    /**
-     * @Route("/cart/remove/{id}", name="remove_product_cart")
-     */
-    public function remove($id, SessionInterface $session)
-    {
-        $cart = $session->get('cart', []);
-        if (!empty($cart[$id])) {
-            unset($cart[$id]);
-        }
-        $session->set('cart', $cart);
-        return $this->redirectToRoute("cart");
+        return $this->redirectToRoute('cart');
     }
 }

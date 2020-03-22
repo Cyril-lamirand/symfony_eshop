@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LuckyController!{% endblock %}
+{% block title %} {{ loc_laboratory }}{% endblock %}
 
 {% block body %}
 <style>
@@ -8,17 +8,14 @@
     .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
 </style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+<div class="example-wrapper txt-color">
+    <h1>{{ loc_laboratory }} 🧪</h1>
     <hr>
-    <p>The lucky number : {{ lucky_number }}</p>
+    <p>{{ trans2 }} : {{ lucky_number }}</p>
     <hr>
-    <p>Language : {{ language }}</p>
-    <hr>
-    <i>Automatic</i> This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/wamp64/www/symfony_eshop/src/Controller/LuckyController.php'|file_link(0) }}">src/Controller/LuckyController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/wamp64/www/symfony_eshop/templates/lucky/index.html.twig'|file_link(0) }}">templates/lucky/index.html.twig</a></code></li>
-    </ul>
+    <p>Locale : {{ language }}</p>
+    <p>{{ trans }}</p>
+    <p>{{ trans3 }} : </p>
+    <p><i>symfony_eshop/config/packages/translation.yaml</i> => en // fr_FR</p>
 </div>
 {% endblock %}
