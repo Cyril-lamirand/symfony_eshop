@@ -12,18 +12,17 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Doctrine\DBAL\Driver\Connection;
 
 class ProductController extends AbstractController
 {
     /**
      * @Route("/product", name="product")
      */
-    public function index(Request $request, TranslatorInterface $translator, Connection $connection)
+    public function index(Request $request, TranslatorInterface $translator)
     {
         try {
 
-            $em = $connection->$this->getDoctrine()->getManager();
+            $em = $this->getDoctrine()->getManager();
             $product = new Product();
             $form = $this->createForm(ProductType::class, $product);
             $form->handleRequest($request);
