@@ -20,47 +20,52 @@ class ProductController extends AbstractController
      */
     public function index(Request $request, TranslatorInterface $translator)
     {
-        $em = $this->getDoctrine()->getManager();
-        $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
-        $form->handleRequest($request);
-        if($form->isSubmitted() && $form->isValid()){
-            $picture = $form->get('product_picture')->getData();
-            if($picture){
-                $productPicture = uniqid().'.'.$picture->guessExtension();
-                try{
-                    $picture->move(
-                        $this->getParameter('upload_dir'),
-                        $productPicture
-                    );
+        try {
+
+            $em = $this->getDoctrine()->getManager();
+            $product = new Product();
+            $form = $this->createForm(ProductType::class, $product);
+            $form->handleRequest($request);
+            if($form->isSubmitted() && $form->isValid()){
+                $picture = $form->get('product_picture')->getData();
+                if($picture){
+                    $productPicture = uniqid().'.'.$picture->guessExtension();
+                    try{
+                        $picture->move(
+                            $this->getParameter('upload_dir'),
+                            $productPicture
+                        );
+                    }
+                    catch(FileException $e){
+                        $this->addFlash('error', "Impossible d'uploader l'image");
+                        return $this->redirectToRoute('product');
+                    }
+                    $product->setProductPicture($productPicture);
                 }
-                catch(FileException $e){
-                    $this->addFlash('error', "Impossible d'uploader l'image");
-                    return $this->redirectToRoute('product');
-                }
-                $product->setProductPicture($productPicture);
+                $em->persist($product);
+                $em->flush();
+                $this->addFlash('success', 'Produit ajouté !');
             }
-            $em->persist($product);
-            $em->flush();
-            $this->addFlash('success', 'Produit ajouté !');
+            $products = $em->getRepository(Product::class)->findAll();
+            // Translation EN -> FR
+            $local_prod = $translator->trans('Product(s)');
+            $local_info = $translator->trans('More');
+            $local_crea = $translator->trans('Create Product');
+            $local_empt = $translator->trans('There is no products here !');
+
+            return $this->render('product/index.html.twig', [
+                'products' => $products,
+                // Translation
+                'loc_prod' => $local_prod,
+                'loc_info' => $local_info,
+                'loc_crea' => $local_crea,
+                'loc_empt' => $local_empt,
+                'form_add_product' => $form->createView()
+            ]);
+
+        } catch (\Exception $e) {
+            return new Response('Erreur : aucune bdd défini');
         }
-        $products = $em->getRepository(Product::class)->findAll();
-
-        // Translation EN -> FR
-        $local_prod = $translator->trans('Product(s)');
-        $local_info = $translator->trans('More');
-        $local_crea = $translator->trans('Create Product');
-        $local_empt = $translator->trans('There is no products here !');
-
-        return $this->render('product/index.html.twig', [
-            'products' => $products,
-            // Translation
-            'loc_prod' => $local_prod,
-            'loc_info' => $local_info,
-            'loc_crea' => $local_crea,
-            'loc_empt' => $local_empt,
-            'form_add_product' => $form->createView()
-        ]);
     }
 
     /**
