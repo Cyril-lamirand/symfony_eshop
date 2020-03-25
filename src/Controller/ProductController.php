@@ -23,7 +23,7 @@ class ProductController extends AbstractController
     {
         try {
 
-            $em = $this->$connection->getDoctrine()->getManager();
+            $em = $connection->getDoctrine()->getManager();
             $product = new Product();
             $form = $this->createForm(ProductType::class, $product);
             $form->handleRequest($request);
